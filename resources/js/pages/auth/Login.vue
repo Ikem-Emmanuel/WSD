@@ -39,8 +39,9 @@
                         <span class="text-white text-md font-bold">Sign In</span>
                     </div>
                 </div>
-                <div class="alert alert-danger" v-if="has_error">
-                    <p>An Error Has Occured</p>
+                <div class="alert alert-danger" v-if="has_error && !success">
+                    <p v-if="error == 'login_error'">Validation error (s), please see the message (s) below.</p>
+                    <p v-else>Error, unable to login at the moment. If the problem persists, please contact an administrator.</p>
                 </div>
                 <div class="">
                     <div class="py-2 md:py-3 px-6">
@@ -51,12 +52,12 @@
                                         <label for="username" class="block text-gray=hard">Username</label>
                                         <!-- <span class="text-gray-hard">Enter Email </span> -->
                                         <input type="username" id="username" class="bg-light-hard p-2 w-full rounded-sm" placeholder="Enter Username" v-model="username" required />
-                                        <span class="help-block" v-if="has_error && errors.username">{{ errors.username }}</span>
+                                        <span class="text-sm font-light text-red-300" v-if="has_error && errors.username">{{ errors.username }}</span>
                                     </div>
                                     <div class="mt-4" v-bind:class="{ 'has-error': has_error && errors.password }">
-                                        <label for="username" class="block text-gray=hard">Username</label>
+                                        <label for="username" class="block text-gray=hard">Password</label>
                                         <input type="password" id="password" class="bg-light-hard p-2 w-full rounded-sm" v-model="password">
-                                        <span class="help-block" v-if="has_error && errors.password">{{ errors.password }}</span>
+                                        <span class="text-sm font-light text-red-300" v-if="has_error && errors.password">{{ errors.password }}</span>
                                     </div>
                                     <button class="bg-blue flex justify-center text-white mt-6 py-2 rounded " >
                                         <h1 class="text-light-normal font-semibold text-center"> Sign in</h1>
@@ -100,17 +101,15 @@
             username: app.username,
             password: app.password
           },
-          success: function() {
+          success: function(errors) {
+              console.log('aerro')
             // handle redirection
-            const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
-            this.$router.push({name: redirectTo})
+            // const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
+            // this.$router.push({name: redirectTo})
           },
-           error: function (error) {
-               console.log(error)
+           error: function (res) {
+               console.log(res)
             console.log(res.response.data.errors)
-            app.has_error = true
-            app.error = res.response.data.error
-            app.errors = res.response.data.errors || {}
           },
           rememberMe: true,
           fetchUser: true

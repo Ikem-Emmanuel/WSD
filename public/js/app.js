@@ -3223,6 +3223,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 // import Logo from '../../assets/logo.svg'
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3248,19 +3249,14 @@ __webpack_require__.r(__webpack_exports__);
           username: app.username,
           password: app.password
         },
-        success: function success() {
-          // handle redirection
-          var redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard';
-          this.$router.push({
-            name: redirectTo
-          });
+        success: function success(errors) {
+          console.log('aerro'); // handle redirection
+          // const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
+          // this.$router.push({name: redirectTo})
         },
-        error: function error(_error) {
-          console.log(_error);
+        error: function error(res) {
+          console.log(res);
           console.log(res.response.data.errors);
-          app.has_error = true;
-          app.error = res.response.data.error;
-          app.errors = res.response.data.errors || {};
         },
         rememberMe: true,
         fetchUser: true
@@ -5112,9 +5108,19 @@ var render = function() {
           _vm._v(" "),
           _vm._m(1),
           _vm._v(" "),
-          _vm.has_error
+          _vm.has_error && !_vm.success
             ? _c("div", { staticClass: "alert alert-danger" }, [
-                _c("p", [_vm._v("An Error Has Occured")])
+                _vm.error == "login_error"
+                  ? _c("p", [
+                      _vm._v(
+                        "Validation error (s), please see the message (s) below."
+                      )
+                    ])
+                  : _c("p", [
+                      _vm._v(
+                        "Error, unable to login at the moment. If the problem persists, please contact an administrator."
+                      )
+                    ])
               ])
             : _vm._e(),
           _vm._v(" "),
@@ -5187,9 +5193,14 @@ var render = function() {
                                 }),
                                 _vm._v(" "),
                                 _vm.has_error && _vm.errors.username
-                                  ? _c("span", { staticClass: "help-block" }, [
-                                      _vm._v(_vm._s(_vm.errors.username))
-                                    ])
+                                  ? _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "text-sm font-light text-red-300"
+                                      },
+                                      [_vm._v(_vm._s(_vm.errors.username))]
+                                    )
                                   : _vm._e()
                               ]
                             ),
@@ -5210,7 +5221,7 @@ var render = function() {
                                     staticClass: "block text-gray=hard",
                                     attrs: { for: "username" }
                                   },
-                                  [_vm._v("Username")]
+                                  [_vm._v("Password")]
                                 ),
                                 _vm._v(" "),
                                 _c("input", {
@@ -5237,9 +5248,14 @@ var render = function() {
                                 }),
                                 _vm._v(" "),
                                 _vm.has_error && _vm.errors.password
-                                  ? _c("span", { staticClass: "help-block" }, [
-                                      _vm._v(_vm._s(_vm.errors.password))
-                                    ])
+                                  ? _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "text-sm font-light text-red-300"
+                                      },
+                                      [_vm._v(_vm._s(_vm.errors.password))]
+                                    )
                                   : _vm._e()
                               ]
                             ),
@@ -20678,7 +20694,7 @@ var config = {
   router: _websanova_vue_auth_drivers_router_vue_router_2_x__WEBPACK_IMPORTED_MODULE_2__["default"],
   tokenDefaultName: "WSD",
   tokenStore: ["localStorage"],
-  rolesVar: "role",
+  rolesKey: "role",
   //‘rolesVar’ is used to determine which user model field is used to define the user’s role ||  If you nammed your field differently or use a package to handle roles in Laravel, modify this value consequently. (Note: In the latests version of the package, ‘rolesVar’ should be replaced by ‘rolesKey’)
   // =======================================================================
   // /‘registerData’, ‘loginData’, ‘logoutData’, ‘fetchData’ and ‘refreshData’ are used to define API endpoints that Vue-Auth is gonna use.

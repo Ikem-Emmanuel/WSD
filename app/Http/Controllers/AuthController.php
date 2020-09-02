@@ -51,7 +51,7 @@ class AuthController extends Controller
         if ($token = $this->guard()->attempt($credentials)) {
             return response()->json(['status' => 'It Fucking works'], 200)->header('Authorization', $token);
         }
-        return response()->json(['error' => 'login_error'], 401);
+        return response()->json(['error' => 'login_error', 'errors' => 401]);
     }
     public function logout()
     {
