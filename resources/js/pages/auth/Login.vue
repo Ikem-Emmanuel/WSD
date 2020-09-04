@@ -101,14 +101,13 @@
             username: app.username,
             password: app.password
           },
-          success: function(errors) {
-              console.log('aerro')
+          success: function() {
+              console.log(res)
             // handle redirection
             // const redirectTo = redirect ? redirect.from.name : this.$auth.user().role === 2 ? 'admin.dashboard' : 'dashboard'
             // this.$router.push({name: redirectTo})
           },
            error: function (res) {
-               console.log(res)
             console.log(res.response.data.errors)
           },
           rememberMe: true,

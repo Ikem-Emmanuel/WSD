@@ -9,7 +9,7 @@ const config = {
     router: router,
     tokenDefaultName: "WSD",
     tokenStore: ["localStorage"],
-    rolesKey : "role", //‘rolesVar’ is used to determine which user model field is used to define the user’s role ||  If you nammed your field differently or use a package to handle roles in Laravel, modify this value consequently. (Note: In the latests version of the package, ‘rolesVar’ should be replaced by ‘rolesKey’)
+    rolesKey: "role", //‘rolesVar’ is used to determine which user model field is used to define the user’s role ||  If you nammed your field differently or use a package to handle roles in Laravel, modify this value consequently. (Note: In the latests version of the package, ‘rolesVar’ should be replaced by ‘rolesKey’)
     // =======================================================================
 
     // /‘registerData’, ‘loginData’, ‘logoutData’, ‘fetchData’ and ‘refreshData’ are used to define API endpoints that Vue-Auth is gonna use.
